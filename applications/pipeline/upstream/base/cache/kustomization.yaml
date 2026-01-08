@@ -8,8 +8,11 @@ resources:
   - cache-service.yaml
 images:
   - name: ghcr.io/kubeflow/kfp-cache-server
-    newTag: 2.15.0
+    newTag: 2.5.0
 labels:
   - includeSelectors: true
     pairs:
       app: cache-server
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

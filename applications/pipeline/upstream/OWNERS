@@ -1,8 +1,6 @@
 approvers:
-  - chensun
-  - HumairAK
+  - gkcalat
+  - zijianjoy
 reviewers:
-  - mprahl
-  - droctothorpe
-  - hbelmiro
-  - gmfrasca
+  - gkcalat
+  - zijianjoy

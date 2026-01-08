@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
 - crd.yaml
 namespace: istio-system
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-5"

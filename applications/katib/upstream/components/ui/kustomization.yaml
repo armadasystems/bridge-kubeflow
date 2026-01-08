@@ -6,3 +6,6 @@ resources:
   - rbac.yaml
   - service.yaml
   - ui.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

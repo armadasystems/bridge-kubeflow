@@ -4,3 +4,6 @@ resources:
 - ../../pipeline
 patches:
 - path: ml-pipeline-apiserver-deployment-patch.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

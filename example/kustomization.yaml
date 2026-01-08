@@ -42,16 +42,15 @@ resources:
 - ../common/istio/istio-install/overlays/oauth2-proxy
 # NOTE: For Google Kubernetes Engine (GKE), use:
 # - ../common/istio/istio-install/overlays/gke
-# NOTE: For Istio Ambient Mode (sidecar-free), use one of:
-# - ../common/istio/istio-install/overlays/ambient-oauth2-proxy
-# - ../common/istio/istio-install/overlays/ambient-oauth2-proxy-gke
-# GKE mounts `/opt/cni/bin` as read-only. The GKE overlays use `/home/kubernetes/bin`.
-# For details, see [Istio CNI Prerequisites](https://istio.io/latest/docs/setup/additional-setup/cni/#prerequisites)
-# Oauth2-proxy
+#GKE mounts `/opt/cni/bin` as read-only for security reasons, preventing the Istio CNI installer from writing the CNI binary.
+#Use the GKE-specific overlay: `kubectl apply -k common/istio/istio-install/overlays/gke`.
+#This overlay uses GKE's writable CNI directory at `/home/kubernetes/bin`.
+#For more details, see [Istio CNI Prerequisites](https://istio.io/latest/docs/setup/additional-setup/cni/#prerequisites) and [Platform Prerequisites](https://istio.io/latest/docs/ambient/install/platform-prerequisites/)
+# oauth2-proxy
 # NOTE: only uncomment ONE of the following overlays, depending on your cluster type
-- ../common/oauth2-proxy/overlays/m2m-dex-only       # for all clusters
-# - ../common/oauth2-proxy/overlays/m2m-dex-and-kind  # for KIND clusters (allows K8S JWTs for gateway auth)
-# - ../common/oauth2-proxy/overlays/m2m-dex-and-eks   # for EKS clusters (NOTE: requires you to configure issuer, see overlay)
+- ../common/oauth2-proxy/overlays/m2m-dex-only     # for all clusters
+#- ../common/oauth2-proxy/overlays/m2m-dex-and-kind # for KIND clusters (allows K8S JWTs for gateway auth)
+#- ../common/oauth2-proxy/overlays/m2m-dex-and-eks  # for EKS clusters (NOTE: requires you to configure issuer, see overlay)
 # Dex
 - ../common/dex/overlays/oauth2-proxy
 # KNative
@@ -67,9 +66,8 @@ resources:
 - ../common/kubeflow-roles/base
 # Kubeflow Istio Resources
 - ../common/istio/kubeflow-istio-resources/base
-# Kubeflow Pipelines (SeaweedFS as default S3 storage)
-- ../applications/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user  # Pipeline definitions stored in the database
-# - ../applications/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user-k8s-native # Pipeline Definitions Stored as Kubernetes Resources
+# Kubeflow Pipelines
+- ../applications/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user
 # Katib
 - ../applications/katib/upstream/installs/katib-with-kubeflow
 # Central Dashboard
@@ -81,7 +79,7 @@ resources:
 # Notebook Controller
 - ../applications/jupyter/notebook-controller/upstream/overlays/kubeflow
 # Profiles + KFAM with PSS (Pod Security Standards)
-- ../applications/profiles/pss  # TODO MUST BE UPSTREAMED
+- ../applications/profiles/pss
 # PVC Viewer
 - ../applications/pvcviewer-controller/upstream/base
 # Volumes Web App
@@ -90,10 +88,8 @@ resources:
 - ../applications/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
 # Tensorboard Web App
 - ../applications/tensorboard/tensorboards-web-app/upstream/overlays/istio
-# Training Operator (v1)
-# - ../applications/training-operator/upstream/overlays/kubeflow
-# Trainer (Training Operator v2)
-- ../applications/trainer/overlays
+# Training Operator
+- ../applications/training-operator/upstream/overlays/kubeflow
 # User namespace
 - ../common/user-namespace/base
 # KServe
@@ -101,6 +97,7 @@ resources:
 - ../applications/kserve/models-web-app/overlays/kubeflow
 # Spark Operator
 - ../applications/spark/spark-operator/overlays/kubeflow
+- admin-armada-profile.yaml
 
 # Ray is an experimental integration
 # Here is the documentation for Ray: https://docs.ray.io/en/latest/
@@ -108,7 +105,23 @@ resources:
 # - ../experimental/ray/kuberay-operator/overlays/kubeflow
 
 components:
+# Pod Security Standards
 # https://kubernetes.io/docs/concepts/security/pod-security-standards/
-# For all static namespaces we already enforce PSS restricted
-# This should be used together with Kubernetes 1.33+ user namespaces to block root user exploits
-- ../common/security/PSS/dynamic/baseline
+# Uncomment to enable baseline level standards
+# - ../experimental/security/PSS/static/baseline
+# Uncomment to enable restricted level standards
+# - ../experimental/security/PSS/static/restricted
+# Uncomment to enable baseline level standards for dynamic namespaces
+# - ../experimental/security/PSS/dynamic/baseline
+# Uncomment to enable restricted level standards for dynamic namespaces
+# - ../experimental/security/PSS/dynamic/restricted
+patches:
+- path: gateway-patch.yaml
+  target:
+    kind: Gateway
+    name: kubeflow-gateway
+- path: oauth2-proxy-patch.yaml
+  target:
+    kind: ConfigMap
+    name: oauth2-proxy
+    namespace: oauth2-proxy
