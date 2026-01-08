@@ -40,3 +40,6 @@ patches:
           securityContext:
             seccompProfile:
               type: RuntimeDefault
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

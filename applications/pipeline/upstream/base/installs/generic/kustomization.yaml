@@ -45,3 +45,6 @@ vars:
     name: pipeline-install-config
 configurations:
 - params.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

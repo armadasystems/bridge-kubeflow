@@ -5,24 +5,18 @@ metadata:
 spec:
   template:
     spec:
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: workflow-controller
-          image: quay.io/argoproj/workflow-controller:v3.7.3
+          image: quay.io/argoproj/workflow-controller:v3.5.14
           args:
             - --configmap
             - workflow-controller-configmap
             - --executor-image
-            - quay.io/argoproj/argoexec:v3.7.3
+            - quay.io/argoproj/argoexec:v3.5.14
           securityContext:
-            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
             runAsNonRoot: true
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
           resources:
             requests:
               cpu: 100m

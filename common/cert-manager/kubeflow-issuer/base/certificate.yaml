@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubeflow-self-signed-cert
+  namespace: istio-system
+spec:
+  secretName: kubeflow-self-signed-cert
+  dnsNames:
+  - kubeflow.armada.ai
+  issuerRef:
+    name: kubeflow-self-signing-issuer
+    kind: ClusterIssuer

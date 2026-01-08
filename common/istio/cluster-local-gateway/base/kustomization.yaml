@@ -9,4 +9,7 @@ resources:
 - gateway.yaml
 
 patches:
-- path: patches/seccomp-cluster-local-gateway.yaml
+- path: patches/remove-pdb.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-1"

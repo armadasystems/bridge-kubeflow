@@ -39,3 +39,6 @@ replacements:
       kind: Profile
       name: $(profile-name)
       version: v1beta1
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

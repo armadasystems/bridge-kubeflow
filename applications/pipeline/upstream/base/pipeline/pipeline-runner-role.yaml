@@ -78,10 +78,3 @@ rules:
   - seldondeployments
   verbs:
   - '*'
-- apiGroups:
-  - argoproj.io
-  resources:
-  - workflowtaskresults
-  verbs:
-  - create
-  - patch

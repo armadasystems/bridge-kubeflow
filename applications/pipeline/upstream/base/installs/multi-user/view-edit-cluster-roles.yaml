@@ -44,7 +44,7 @@ rules:
   - pipelines.kubeflow.org
   resources:
   - pipelines
-  - pipelineversions
+  - pipelines/versions
   verbs:
   - create
   - delete
@@ -112,7 +112,7 @@ rules:
   - pipelines.kubeflow.org
   resources:
   - pipelines
-  - pipelineversions
+  - pipelines/versions
   - experiments
   - jobs
   verbs:

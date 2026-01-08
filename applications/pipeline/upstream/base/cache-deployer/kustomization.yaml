@@ -6,8 +6,11 @@ resources:
   - cache-deployer-deployment.yaml
 images:
   - name: ghcr.io/kubeflow/kfp-cache-deployer
-    newTag: 2.15.0
+    newTag: 2.5.0
 labels:
   - includeSelectors: true
     pairs:
       app: cache-deployer
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

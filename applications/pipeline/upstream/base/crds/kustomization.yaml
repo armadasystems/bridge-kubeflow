@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
 - pipelines.kubeflow.org_pipelines.yaml
 - pipelines.kubeflow.org_pipelineversions.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

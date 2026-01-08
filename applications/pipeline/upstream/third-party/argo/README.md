@@ -2,23 +2,34 @@
 
 Kubeflow Pipelines uses [Argo Workflows](https://argoproj.github.io/argo-workflows/) as the underlying workflow execution engine.
 
-This folder contains preconfigured Argo Workflows installations used in Kubeflow Pipelines distributions that use **remote references** to the upstream Argo Workflows repository instead of local copies.
+This folder contains:
 
-## Argo Workflows Dependency Documentation
+* `upstream/manifests` a mirror of argo workflows manifests upstream. It should never be edited here. Run `make update` to update it.
+* `installs` a folder with preconfigured argo workflows installations used in Kubeflow Pipelines distributions.
 
-Refer to [Argo Workflows README.md](../../../../third_party/argo/README.md).
+  Major differences from upstream argo manifests:
 
-## Upgrading Argo Workflows
+  * Argo server is not included.
+  * Argo workflow controller configmap is preconfigured to integrate with KFP.
+  * Images are configured to use KFP redistributed ones which comply with open source licenses.
+  * A default artifact repository config is added for in-cluster minio service.
 
-Refer to [Argo Workflows Upgrade documentation](../../../../third_party/argo/UPGRADE.md).
+## Upgrade argo
 
-## Remote References Implementation
+Refer to [third_party/argo/README.md](../../../../third_party/argo/README.md).
 
-KFP uses remote Git references to Argo Workflows manifests instead of maintaining local copies. This approach:
+### Upgrade argo manifests
 
-* Eliminates licensing concerns about copying manifests
-* Simplifies deployment and upgrade processes
-* Ensures direct tracking of upstream changes
+Requirement: 
 
-All kustomization files reference manifests directly from the [Argo Workflows repository](https://github.com/argoproj/argo-workflows) using versioned Git references.
+Use kpt version above 1.0.0-beta.6, refer to [kpt installation](https://kpt.dev/installation/) for downloading kpt.
 
+As one step of above, we need to upgrade argo manifests in this folder.
+
+1. Run:
+
+    ```bash
+    make update
+    ```
+
+    Note, argo version is pulled from [third_party/argo/VERSION](../../../../third_party/argo/VERSION). Edit the VERSION file first.

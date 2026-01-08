@@ -7,3 +7,5 @@ configMapGenerator:
 - envs:
   - params.env
   name: pipeline-api-server-config
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"
