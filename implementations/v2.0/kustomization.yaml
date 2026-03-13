@@ -98,6 +98,7 @@ resources:
 # Spark Operator
 - ../../applications/spark/spark-operator/overlays/kubeflow
 - admin-armada-profile.yaml
+- kubeflow-params.yaml
 
 # Ray is an experimental integration
 # Here is the documentation for Ray: https://docs.ray.io/en/latest/
@@ -125,3 +126,13 @@ patches:
     kind: ConfigMap
     name: oauth2-proxy
     namespace: oauth2-proxy
+
+vars:
+- name: CALLBACK_URL
+  objref:
+    kind: ConfigMap
+    name: kubeflow-params
+    apiVersion: v1
+    namespace: kubeflow
+  fieldref:
+    fieldPath: data.callback_url
