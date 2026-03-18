@@ -27,6 +27,6 @@ data:
     - idEnv: OIDC_CLIENT_ID
       redirectURIs:
       - "/oauth2/callback"
-      - "$(CALLBACK_URL)"
+      - "$CALLBACK_URL"
       name: 'Dex Login Application'
       secretEnv: OIDC_CLIENT_SECRET

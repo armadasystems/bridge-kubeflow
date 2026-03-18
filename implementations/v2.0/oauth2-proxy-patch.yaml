@@ -82,5 +82,4 @@ data:
 
     code_challenge_method = "S256"
 
-    redirect_url = "$(CALLBACK_URL)"
     relative_redirect_url = false

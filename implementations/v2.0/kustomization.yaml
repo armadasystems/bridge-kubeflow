@@ -126,13 +126,3 @@ patches:
     kind: ConfigMap
     name: oauth2-proxy
     namespace: oauth2-proxy
-
-vars:
-- name: CALLBACK_URL
-  objref:
-    kind: ConfigMap
-    name: kubeflow-params
-    apiVersion: v1
-    namespace: kubeflow
-  fieldref:
-    fieldPath: data.callback_url
