@@ -10,8 +10,6 @@ configMapGenerator:
   name: default-install-config
 # These vars are used for substituing in the parameters from the config map
 # into the Profiles custom resource.
-configurations:
-- params.yaml
 replacements:
 - source:
     fieldPath: data.user
