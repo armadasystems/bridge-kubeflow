@@ -147,34 +147,6 @@ replacements:
       namespace: auth
     fieldPaths:
     - spec.redirectURIs.1
-- source:
-    kind: Secret
-    name: dex-oidc-client
-    namespace: auth
-    fieldPath: data.OIDC_CLIENT_ID
-  targets:
-  - select:
-      kind: OAuth2Client
-      name: kubeflow-oidc-authservice
-      namespace: auth
-    fieldPaths:
-    - metadata.name
-    options:
-      base64decode: true
-- source:
-    kind: Secret
-    name: dex-oidc-client
-    namespace: auth
-    fieldPath: data.OIDC_CLIENT_SECRET
-  targets:
-  - select:
-      kind: OAuth2Client
-      name: kubeflow-oidc-authservice
-      namespace: auth
-    fieldPaths:
-    - spec.secret
-    options:
-      base64decode: true
 
 
 patches:
