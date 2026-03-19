@@ -3,6 +3,8 @@ kind: OAuth2Client
 metadata:
   name: kubeflow-oidc-authservice
   namespace: auth
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
   redirectURIs:
