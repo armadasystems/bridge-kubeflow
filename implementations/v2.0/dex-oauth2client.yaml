@@ -1,7 +1,7 @@
 apiVersion: dex.coreos.com/v1
 kind: OAuth2Client
 metadata:
-  name: kubeflow-oidc-authservice
+  name: nn2wezlgnrxxollpnfsggllbov2gq43foj3gsy3f
   namespace: auth
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
