@@ -127,14 +127,6 @@ replacements:
   targets:
   - select:
       kind: Deployment
-      name: dex
-      namespace: auth
-    fieldPaths:
-    - spec.template.spec.containers.[name=dex].env.[name=CALLBACK_URL].value
-    options:
-      create: true
-  - select:
-      kind: Deployment
       name: oauth2-proxy
       namespace: oauth2-proxy
     fieldPaths:
