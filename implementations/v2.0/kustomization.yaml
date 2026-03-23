@@ -138,7 +138,7 @@ replacements:
       name: kubeflow-oidc-authservice
       namespace: auth
     fieldPaths:
-    - spec.redirectURIs.1
+    - redirectURIs.1
 
 
 patches:

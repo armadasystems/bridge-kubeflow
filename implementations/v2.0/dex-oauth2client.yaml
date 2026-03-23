@@ -5,9 +5,8 @@ metadata:
   namespace: auth
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-spec:
-  secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
-  redirectURIs:
-  - /oauth2/callback
-  - ""
-  name: Dex Login Application
+secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
+redirectURIs:
+- /oauth2/callback
+- ""
+name: Dex Login Application
