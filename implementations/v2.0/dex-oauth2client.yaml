@@ -5,6 +5,7 @@ metadata:
   namespace: auth
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+id: kubeflow-oidc-authservice
 secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
 redirectURIs:
 - /oauth2/callback
