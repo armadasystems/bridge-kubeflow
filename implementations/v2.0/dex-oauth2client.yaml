@@ -4,7 +4,6 @@ metadata:
   name: kubeflow-oidc-authservice
   namespace: auth
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
