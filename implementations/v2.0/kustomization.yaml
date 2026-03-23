@@ -99,7 +99,6 @@ resources:
 - ../../applications/spark/spark-operator/overlays/kubeflow
 - admin-armada-profile.yaml
 - kubeflow-params.yaml
-- dex-oauth2client.yaml
 
 # Ray is an experimental integration
 # Here is the documentation for Ray: https://docs.ray.io/en/latest/
@@ -133,12 +132,6 @@ replacements:
     - spec.template.spec.containers.[name=oauth2-proxy].env.[name=OAUTH2_PROXY_REDIRECT_URL].value
     options:
       create: true
-  - select:
-      kind: OAuth2Client
-      name: kubeflow-oidc-authservice
-      namespace: auth
-    fieldPaths:
-    - redirectURIs.1
 
 
 patches:

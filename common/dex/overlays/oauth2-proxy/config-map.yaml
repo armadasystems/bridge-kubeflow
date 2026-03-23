@@ -22,3 +22,10 @@ data:
       hashFromEnv: DEX_USER_PASSWORD
       username: user
       userID: "15841185641784"
+    staticClients:
+    - id: kubeflow-oidc-authservice
+      redirectURIs:
+      - /oauth2/callback
+      - http://localhost/oauth2/callback
+      name: Dex Login Application
+      secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
