@@ -135,7 +135,7 @@ replacements:
       create: true
   - select:
       kind: OAuth2Client
-      name: nn2wezlgnrxxollpnfsggllbov2gq43foj3gsy3f
+      name: kubeflow-oidc-authservice
       namespace: auth
     fieldPaths:
     - redirectURIs.1
