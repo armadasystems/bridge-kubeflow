@@ -90,8 +90,6 @@ resources:
 - ../../applications/tensorboard/tensorboards-web-app/upstream/overlays/istio
 # Training Operator
 - ../../applications/training-operator/upstream/overlays/kubeflow
-# User namespace
-- ../../common/user-namespace/base
 # KServe
 - ../../applications/kserve/kserve
 - ../../applications/kserve/models-web-app/overlays/kubeflow
