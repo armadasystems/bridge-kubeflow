@@ -39,3 +39,6 @@ secretGenerator:
   - name: katib-webhook-cert
     options:
       disableNameSuffixHash: true
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

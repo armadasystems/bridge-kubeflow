@@ -10,3 +10,6 @@ patches:
 # XXX: Do NOT use the namespace transformer, as cert-manager defines resources
 # in two namespaces, 'cert-manager' and 'kube-system'.
 # For more information, see https://github.com/jetstack/cert-manager/issues/4102.
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-5"

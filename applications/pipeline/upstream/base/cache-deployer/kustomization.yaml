@@ -11,3 +11,6 @@ labels:
   - includeSelectors: true
     pairs:
       app: cache-deployer
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

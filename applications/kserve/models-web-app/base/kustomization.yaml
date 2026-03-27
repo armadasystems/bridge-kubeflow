@@ -25,3 +25,6 @@ labels:
   pairs:
     app.kubernetes.io/component: kserve-models-web-app
     kustomize.component: kserve-models-web-app
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

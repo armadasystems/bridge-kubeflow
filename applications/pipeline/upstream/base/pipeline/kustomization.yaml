@@ -55,3 +55,6 @@ images:
     newTag: 2.16.0
   - name: ghcr.io/kubeflow/kfp-visualization-server
     newTag: 2.16.0
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

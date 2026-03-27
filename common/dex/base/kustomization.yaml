@@ -21,3 +21,6 @@ secretGenerator:
   type: Opaque
   envs:
   - secret_params.env
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

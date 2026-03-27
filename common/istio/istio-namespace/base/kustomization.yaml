@@ -12,3 +12,6 @@ resources:
 - allow-istiod-webhook-apiserver.yaml
 - allow-knative-to-istio-gateways.yaml
 namespace: istio-system
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-1"

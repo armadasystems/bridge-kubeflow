@@ -8,3 +8,6 @@ resources:
 
 configurations:
 - params.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

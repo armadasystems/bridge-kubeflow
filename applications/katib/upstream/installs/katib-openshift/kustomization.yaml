@@ -67,3 +67,6 @@ patches:
     kind: MutatingWebhookConfiguration
     name: katib.kubeflow.org
     version: v1
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

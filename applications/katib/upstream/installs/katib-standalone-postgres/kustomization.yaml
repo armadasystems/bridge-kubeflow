@@ -45,3 +45,6 @@ patches:
     kind: Deployment
     name: katib-db-manager
     version: v1
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

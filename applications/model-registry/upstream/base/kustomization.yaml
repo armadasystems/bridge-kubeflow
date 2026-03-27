@@ -9,3 +9,6 @@ images:
 - name: ghcr.io/kubeflow/model-registry/server
   newName: ghcr.io/kubeflow/model-registry/server
   newTag: v0.3.7
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

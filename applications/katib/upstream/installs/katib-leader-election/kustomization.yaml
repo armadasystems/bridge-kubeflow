@@ -15,3 +15,6 @@ configMapGenerator:
   name: katib-config
   options:
     disableNameSuffixHash: true
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

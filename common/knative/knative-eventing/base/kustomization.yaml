@@ -16,3 +16,6 @@ labels:
 patches:
 - path: patches/clusterrole-patch.yaml
 - path: patches/pdb.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

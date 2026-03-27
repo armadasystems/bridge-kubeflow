@@ -12,3 +12,6 @@ resources:
 images:
   - name: ghcr.io/kubeflow/kfp-metadata-envoy
     newTag: 2.16.0
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

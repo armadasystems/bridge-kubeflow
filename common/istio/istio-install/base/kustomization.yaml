@@ -21,3 +21,6 @@ patches:
 images:
 - name: busybox
   newName: ghcr.io/containerd/busybox
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-1"

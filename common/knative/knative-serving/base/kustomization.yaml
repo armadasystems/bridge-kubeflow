@@ -24,3 +24,6 @@ patches:
 - path: patches/service-labels.yaml
 - path: patches/remove-gateway.yaml
 - path: patches/pdb.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

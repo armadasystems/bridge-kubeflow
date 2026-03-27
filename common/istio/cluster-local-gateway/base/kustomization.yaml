@@ -10,3 +10,6 @@ resources:
 
 patches:
 - path: patches/seccomp-cluster-local-gateway.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-1"

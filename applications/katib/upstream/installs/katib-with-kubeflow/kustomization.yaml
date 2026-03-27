@@ -61,3 +61,6 @@ replacements:
       kind: VirtualService
       name: katib-ui
       version: v1alpha3
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

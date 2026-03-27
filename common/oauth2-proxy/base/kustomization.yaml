@@ -90,3 +90,6 @@ replacements:
       group: networking.istio.io
       kind: VirtualService
       name: oauth2-proxy
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

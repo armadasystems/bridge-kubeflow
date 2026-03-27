@@ -15,3 +15,6 @@ images:
 - name: ghcr.io/kubeflow/kubeflow/tensorboard-controller
   newName: ghcr.io/kubeflow/kubeflow/tensorboard-controller
   newTag: v1.10.0
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

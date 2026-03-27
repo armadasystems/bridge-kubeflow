@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
 - kubeflow
 - kubeflow-system
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

@@ -156,3 +156,6 @@ replacements:
       group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
       version: v1
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

@@ -94,3 +94,6 @@ patches:
           "disableIngressCreation": false,
           "pathTemplate": "/serving/{{ .Namespace }}/{{ .Name }}"
         }
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

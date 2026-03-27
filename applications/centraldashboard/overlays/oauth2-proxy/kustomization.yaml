@@ -7,3 +7,6 @@ resources:
 
 components:
 - ../../../../common/oauth2-proxy/components/central-dashboard
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

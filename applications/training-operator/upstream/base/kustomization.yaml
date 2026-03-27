@@ -8,3 +8,6 @@ resources:
   - ./webhook
   - service.yaml
   - deployment.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"

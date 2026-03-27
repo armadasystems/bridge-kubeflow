@@ -4,3 +4,6 @@ resources:
 - ../../cache
 patches:
 - path: cache-deployment-patch.yaml
+
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "0"
