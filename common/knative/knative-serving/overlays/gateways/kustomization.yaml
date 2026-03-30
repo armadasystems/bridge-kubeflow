@@ -13,11 +13,5 @@ patches:
 - path: patches/webhook-k8s-min-version.yaml
   target:
     kind: Deployment
-    name: webhook
-    namespace: knative-serving
-- path: patches/webhook-k8s-min-version.yaml
-  target:
-    kind: Deployment
-    name: net-istio-webhook
     namespace: knative-serving
 
