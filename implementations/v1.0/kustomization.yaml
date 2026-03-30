@@ -94,7 +94,6 @@ resources:
 - ../../applications/kserve/models-web-app/overlays/kubeflow
 # Spark Operator
 - ../../applications/spark/spark-operator/overlays/kubeflow
-- admin-armada-profile.yaml
 
 # Ray is an experimental integration
 # Here is the documentation for Ray: https://docs.ray.io/en/latest/
