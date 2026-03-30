@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: dex
       containers:
-      - image: ghcr.io/dexidp/dex:v2.41.1
+      - image: ghcr.io/dexidp/dex:v2.45.0
         name: dex
         command: ["dex", "serve", "/etc/dex/cfg/config.yaml"]
         ports:
@@ -26,6 +26,8 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          runAsUser: 1001
+          runAsGroup: 1001
           runAsNonRoot: true
           capabilities:
             drop:
@@ -43,11 +45,14 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        #readinessProbe:
-        #  httpGet:
-        #    path: /healthz
-        #    port: 5556
-        #    scheme: HTTPS
+        readinessProbe:
+          httpGet:
+            path: /dex/healthz
+            port: 5556
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
       volumes:
       - name: config
         configMap:

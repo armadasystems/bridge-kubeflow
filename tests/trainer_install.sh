@@ -18,9 +18,6 @@ kubectl apply -f upstream/overlays/kubeflow-platform/kubeflow-trainer-roles.yaml
 
 cd -
 
-kubectl apply -f common/networkpolicies/base/trainer-webhook-kubeflow-system.yaml
-kubectl apply -f common/networkpolicies/base/default-allow-same-namespace-kubeflow-system.yaml
-kubectl apply -f common/networkpolicies/base/jobset-webhook-kubeflow-system.yaml
 
 kubectl get deployment -n kubeflow-system kubeflow-trainer-controller-manager
 kubectl get pods -n kubeflow-system -l app.kubernetes.io/name=trainer
@@ -31,3 +28,9 @@ kubectl rollout restart deployment/jobset-controller-manager -n kubeflow-system
 kubectl rollout status deployment/jobset-controller-manager -n kubeflow-system --timeout=120s
 kubectl wait --for=condition=Available deployment/jobset-controller-manager -n kubeflow-system --timeout=120s
 
+# Wait for webhook certificates to be provisioned
+kubectl wait --timeout=120s --for='jsonpath={.webhooks[0].clientConfig.caBundle}' validatingwebhookconfiguration/validator.trainer.kubeflow.org
+kubectl wait --timeout=120s --for='jsonpath={.webhooks[0].clientConfig.caBundle}' mutatingwebhookconfiguration/jobset-mutating-webhook-configuration
+
+# Allow kube-proxy endpoint propagation after rollout restart
+sleep 30

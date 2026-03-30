@@ -7,6 +7,10 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
+- default-allow-same-namespace.yaml
+- allow-istiod-control-plane.yaml
+- allow-istiod-webhook-apiserver.yaml
+- allow-knative-to-istio-gateways.yaml
 namespace: istio-system
 
 commonAnnotations:

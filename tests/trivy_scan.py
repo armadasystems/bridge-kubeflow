@@ -17,12 +17,20 @@ import json
 import glob
 from prettytable import PrettyTable
 
+def get_trivy_binary():
+    # Check both GitHub Actions and local installation directories
+    for directory in ["/tmp/usr/local/bin", os.path.expandvars("$HOME/.local/bin")]:
+        trivy_path = os.path.join(directory, "trivy")
+        if os.path.isfile(trivy_path):
+            return trivy_path
+    return "trivy"
+
 # Dictionary mapping Kubeflow workgroups to directories containing kustomization files
 wg_dirs = {
     "katib": "../applications/katib/upstream/installs",
     "pipelines": "../applications/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user",
     "trainer": "../applications/training-operator/upstream/overlays ../applications/trainer/overlays",
-    "manifests": "../common/cert-manager/cert-manager/base ../common/cert-manager/kubeflow-issuer/base ../common/istio/istio-crds/base ../common/istio/istio-namespace/base ../common/istio/istio-install/overlays/oauth2-proxy ../common/oauth2-proxy/overlays/m2m-self-signed ../common/dex/overlays/oauth2-proxy ../common/knative/knative-serving/overlays/gateways ../common/knative/knative-eventing/base ../common/istio/cluster-local-gateway/base ../common/kubeflow-namespace/base ../common/kubeflow-roles/base ../common/istio/kubeflow-istio-resources/base",
+    "manifests": "../common/cert-manager/overlays/kubeflow ../common/istio/istio-crds/base ../common/istio/istio-namespace/base ../common/istio/istio-install/overlays/oauth2-proxy ../common/oauth2-proxy/overlays/m2m-dex-only  ../common/oauth2-proxy/overlays/m2m-dex-and-kind ../common/dex/overlays/oauth2-proxy ../common/knative/knative-serving/overlays/gateways ../common/knative/knative-eventing/base ../common/istio/cluster-local-gateway/base ../common/kubeflow-namespace/base ../common/kubeflow-roles/base ../common/istio/kubeflow-istio-resources/base",
     "workbenches": "../applications/pvcviewer-controller/upstream/base ../applications/admission-webhook/upstream/overlays ../applications/centraldashboard/overlays ../applications/jupyter/jupyter-web-app/upstream/overlays ../applications/volumes-web-app/upstream/overlays ../applications/tensorboard/tensorboards-web-app/upstream/overlays ../applications/profiles/upstream/overlays ../applications/jupyter/notebook-controller/upstream/overlays ../applications/tensorboard/tensorboard-controller/upstream/overlays",
     "kserve": "../applications/kserve - ../applications/kserve/models-web-app/overlays/kubeflow",
     "model-registry": "../applications/model-registry/upstream/overlays/db ../applications/model-registry/upstream/options/istio ../applications/model-registry/upstream/options/ui/overlays/istio",
@@ -176,7 +184,7 @@ for file in files:
         try:
             result = subprocess.run(
                 [
-                    "trivy",
+                    get_trivy_binary(),
                     "image",
                     "--format",
                     "json",

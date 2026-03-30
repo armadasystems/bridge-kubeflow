@@ -1,42 +1,31 @@
 #!/usr/bin/env bash
 # This script helps to create a PR to update the Dex manifests
-
 SCRIPT_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "${SCRIPT_DIRECTORY}/library.sh"
-
 setup_error_handling
-
 COMPONENT_NAME="dex"
-DEX_RELEASE="v2.43.1" # Must be a release
-BRANCH_NAME=${BRANCH_NAME:=synchronize-${COMPONENT_NAME}-manifests-${DEX_RELEASE?}}
-
+REPOSITORY_NAME="dexidp/dex"
+REPOSITORY_URL="https://github.com/dexidp/dex.git"
+COMMIT="v2.45.0"
+REPOSITORY_DIRECTORY="dex"
+SOURCE_DIRECTORY=${SOURCE_DIRECTORY:=/tmp/kubeflow-${COMPONENT_NAME}}
+BRANCH_NAME=${BRANCH_NAME:=synchronize-${COMPONENT_NAME}-manifests-${COMMIT?}}
 MANIFESTS_DIRECTORY=$(dirname $SCRIPT_DIRECTORY)
-DESTINATION_DIRECTORY=$MANIFESTS_DIRECTORY/common/${COMPONENT_NAME}
-
+DESTINATION_MANIFESTS_PATH="common/${COMPONENT_NAME}"
+DESTINATION_DIRECTORY=$MANIFESTS_DIRECTORY/${DESTINATION_MANIFESTS_PATH}
+UPSTREAM_DIRECTORY=$DESTINATION_DIRECTORY/base/upstream
 create_branch "$BRANCH_NAME"
+clone_and_checkout "$SOURCE_DIRECTORY" "$REPOSITORY_URL" "$REPOSITORY_DIRECTORY" "$COMMIT"
 
-check_uncommitted_changes
+sed -i "s|ghcr.io/dexidp/dex:v[0-9.]*|ghcr.io/dexidp/dex:${COMMIT}|g" \
+  "$DESTINATION_DIRECTORY/base/deployment.yaml"
 
-echo "Updating Dex image tag to ${DEX_RELEASE}..."
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i "" "s|ghcr.io/dexidp/dex:v[0-9.]*|ghcr.io/dexidp/dex:${DEX_RELEASE}|g" \
-        $DESTINATION_DIRECTORY/base/deployment.yaml
-else
-    sed -i "s|ghcr.io/dexidp/dex:v[0-9.]*|ghcr.io/dexidp/dex:${DEX_RELEASE}|g" \
-        $DESTINATION_DIRECTORY/base/deployment.yaml
-fi
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i "" '/| Dex | common\/dex |/s|\[.*\](https://github.com/dexidp/dex/releases/tag/v.*)|['"${DEX_RELEASE#v}"'](https://github.com/dexidp/dex/releases/tag/'"${DEX_RELEASE}"')|' \
-        ${MANIFESTS_DIRECTORY}/README.md
-else
-    sed -i '/| Dex | common\/dex |/s|\[.*\](https://github.com/dexidp/dex/releases/tag/v.*)|['"${DEX_RELEASE#v}"'](https://github.com/dexidp/dex/releases/tag/'"${DEX_RELEASE}"')|' \
-        ${MANIFESTS_DIRECTORY}/README.md
-fi
-
-commit_changes "$MANIFESTS_DIRECTORY" "Update common/dex manifests to ${DEX_RELEASE}" \
-  "$DESTINATION_DIRECTORY" \
-  "README.md"
-
-echo "Synchronization completed successfully." 
+mkdir -p "$UPSTREAM_DIRECTORY"
+cp \
+  "$SOURCE_DIRECTORY/$REPOSITORY_DIRECTORY/scripts/manifests/crds/authcodes.yaml" \
+  "$UPSTREAM_DIRECTORY/crds.yaml"
+SOURCE_TEXT="\[.*\](https://github.com/${REPOSITORY_NAME}/releases/tag/v.*)"
+DESTINATION_TEXT="\[${COMMIT#v}\](https://github.com/${REPOSITORY_NAME}/releases/tag/${COMMIT})"
+update_readme "$MANIFESTS_DIRECTORY" "$SOURCE_TEXT" "$DESTINATION_TEXT"
+commit_changes "$MANIFESTS_DIRECTORY" "Update ${REPOSITORY_NAME} manifests from ${COMMIT}" "$DESTINATION_MANIFESTS_PATH"
+echo "Synchronization completed successfully."

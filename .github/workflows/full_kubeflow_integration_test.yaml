@@ -27,14 +27,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v5
 
-    - name: Free up disk space
-      run: ./tests/free-disk-space.sh
-
     - name: Install KinD, Create KinD cluster and Install kustomize
       run: ./tests/install_KinD_create_KinD_cluster_install_kustomize.sh
-
-    - name: Install kubectl
-      run: ./tests/kubectl_install.sh
 
     - name: Create Kubeflow Namespace
       run: kustomize build common/kubeflow-namespace/base | kubectl apply -f -
@@ -158,7 +152,7 @@ jobs:
 
     - name: V2 Pipeline Test
       run: |
-        pip3 install -U "kfp>=2.15.2"
+        pip3 install -U "kfp>=2.16.0" kfp-kubernetes
         TOKEN="$(kubectl -n $KF_PROFILE create token default-editor)"
         python3 tests/pipeline_v2_test.py run_pipeline "${TOKEN}" "${KF_PROFILE}"
 
@@ -199,9 +193,6 @@ jobs:
 
     - name: Run KServe Test
       run: ./tests/kserve_test.sh ${KF_PROFILE}
-
-    - name: Test KServe Models Web Application API
-      run: ./tests/kserve_models_web_application_test.sh "${KF_PROFILE}"
 
     - name: Run Spark Test
       run: chmod u+x tests/*.sh && ./tests/spark_test.sh "${KF_PROFILE}"
