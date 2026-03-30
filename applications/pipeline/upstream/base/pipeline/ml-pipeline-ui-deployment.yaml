@@ -76,12 +76,6 @@ spec:
                 name: pipeline-install-config
                 key: CLUSTER_DOMAIN
                 optional: true
-          - name: ARTIFACTS_SERVICE_PROXY_ENABLED
-            valueFrom:
-              configMapKeyRef:
-                name: pipeline-install-config
-                key: ARTIFACTS_PROXY_ENABLED
-                optional: true
         readinessProbe:
           httpGet:
             path: /apis/v1beta1/healthz
