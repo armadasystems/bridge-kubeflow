@@ -1,0 +1,5 @@
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value:
+    name: KUBERNETES_MIN_VERSION
+    value: "1.28.0-0"

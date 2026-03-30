@@ -10,4 +10,14 @@ patches:
 - path: patches/gateway-selector-in-knative-serving.yaml
 - path: patches/gateway-selector-in-istio-system.yaml
 - path: patches/config-domain.yaml
+- path: patches/webhook-k8s-min-version.yaml
+  target:
+    kind: Deployment
+    name: webhook
+    namespace: knative-serving
+- path: patches/webhook-k8s-min-version.yaml
+  target:
+    kind: Deployment
+    name: net-istio-webhook
+    namespace: knative-serving
 
