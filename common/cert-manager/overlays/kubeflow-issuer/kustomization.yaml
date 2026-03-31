@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Kubeflow-specific cert-manager resources only (no cert-manager installation).
+# Use this when cert-manager is managed by a separate ArgoCD app to avoid
+# SharedResourceWarning conflicts.
+resources:
+- cluster-issuer.yaml
+- cert-manager-webhook.yaml
+- default-allow-same-namespace.yaml

@@ -33,8 +33,8 @@ sortOptions:
     - ValidatingWebhookConfiguration
 
 resources:
-# Cert-Manager
-- ../../common/cert-manager/overlays/kubeflow
+# Cert-Manager kubeflow-specific resources only (installation managed by separate ArgoCD app)
+- ../../common/cert-manager/overlays/kubeflow-issuer
 # Istio
 - ../../common/istio/istio-crds/base
 - ../../common/istio/istio-namespace/base
