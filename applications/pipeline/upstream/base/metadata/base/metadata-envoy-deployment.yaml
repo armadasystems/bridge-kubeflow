@@ -23,7 +23,6 @@ spec:
       - name: container
         image: ghcr.io/kubeflow/kfp-metadata-envoy:dummy
         args:
-        - -c
         - /etc/envoy/envoy-config.yaml
         ports:
         - name: md-envoy
