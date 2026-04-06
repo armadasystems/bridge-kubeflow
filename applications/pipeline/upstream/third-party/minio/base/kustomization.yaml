@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kubeflow
 
+commonAnnotations:
+  argocd.argoproj.io/sync-wave: "-1"
+
 resources:
 - minio-deployment.yaml
 - minio-pvc.yaml
