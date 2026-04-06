@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - ../istio
+- keycloak-secret.yaml
 
 patches:
   - path: config-map.yaml
@@ -11,4 +12,25 @@ patches:
       kind: ConfigMap
       name: dex
       namespace: auth
+  - target:
+      kind: Deployment
+      name: dex
+      namespace: auth
+    patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: dex
+      spec:
+        template:
+          spec:
+            containers:
+            - name: dex
+              envFrom:
+              - secretRef:
+                  name: dex-oidc-client
+              - secretRef:
+                  name: dex-passwords
+              - secretRef:
+                  name: dex-keycloak-client
 
