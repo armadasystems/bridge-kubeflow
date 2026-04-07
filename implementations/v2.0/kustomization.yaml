@@ -144,3 +144,8 @@ patches:
     kind: ConfigMap
     name: oauth2-proxy
     namespace: oauth2-proxy
+- path: istio-ingressgateway-hostnetwork-patch.yaml
+  target:
+    kind: Deployment
+    name: istio-ingressgateway
+    namespace: istio-system
