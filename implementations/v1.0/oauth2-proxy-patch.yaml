@@ -82,5 +82,4 @@ data:
 
     code_challenge_method = "S256"
 
-    redirect_url = "https://kubeflow.armada.ai/oauth2/callback"
     relative_redirect_url = false

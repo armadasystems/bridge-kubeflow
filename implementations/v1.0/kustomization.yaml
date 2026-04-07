@@ -94,6 +94,7 @@ resources:
 - ../../applications/kserve/models-web-app/overlays/kubeflow
 # Spark Operator
 - ../../applications/spark/spark-operator/overlays/kubeflow
+- kubeflow-params.yaml
 
 # Ray is an experimental integration
 # Here is the documentation for Ray: https://docs.ray.io/en/latest/
@@ -111,6 +112,22 @@ components:
 # - ../../experimental/security/PSS/dynamic/baseline
 # Uncomment to enable restricted level standards for dynamic namespaces
 # - ../../experimental/security/PSS/dynamic/restricted
+replacements:
+- source:
+    kind: ConfigMap
+    name: kubeflow-params
+    namespace: kubeflow
+    fieldPath: data.callback_url
+  targets:
+  - select:
+      kind: Deployment
+      name: oauth2-proxy
+      namespace: oauth2-proxy
+    fieldPaths:
+    - spec.template.spec.containers.[name=oauth2-proxy].env.[name=OAUTH2_PROXY_REDIRECT_URL].value
+    options:
+      create: true
+
 patches:
 - path: gateway-patch.yaml
   target:
