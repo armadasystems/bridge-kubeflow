@@ -21,6 +21,7 @@ data:
     - idEnv: OIDC_CLIENT_ID
       redirectURIs:
       - /oauth2/callback
+      - https://KUBEFLOW_HOSTNAME/oauth2/callback
       name: Dex Login Application
       secretEnv: OIDC_CLIENT_SECRET
     connectors:
