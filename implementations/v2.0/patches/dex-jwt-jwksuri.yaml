@@ -1,0 +1,6 @@
+- op: replace
+  path: /spec/jwtRules/0/issuer
+  value: https://kubeflow.example.com/dex
+- op: add
+  path: /spec/jwtRules/0/jwksUri
+  value: http://dex.auth.svc.cluster.local:5556/dex/keys

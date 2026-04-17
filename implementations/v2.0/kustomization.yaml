@@ -1,0 +1,135 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+sortOptions:
+  order: legacy
+  legacySortOptions:
+    orderFirst:
+    - Namespace
+    - ResourceQuota
+    - StorageClass
+    - CustomResourceDefinition
+    - MutatingWebhookConfiguration
+    - ServiceAccount
+    - PodSecurityPolicy
+    - NetworkPolicy
+    - Role
+    - ClusterRole
+    - RoleBinding
+    - ClusterRoleBinding
+    - ConfigMap
+    - Secret
+    - Endpoints
+    - Service
+    - LimitRange
+    - PriorityClass
+    - PersistentVolume
+    - PersistentVolumeClaim
+    - Deployment
+    - StatefulSet
+    - CronJob
+    - PodDisruptionBudget
+    orderLast:
+    - ValidatingWebhookConfiguration
+
+resources:
+# Cert-Manager
+- ../../common/cert-manager/overlays/kubeflow
+# Istio (wrapped with sync-wave annotations)
+- ./wave-wrappers/istio-crds
+- ./wave-wrappers/istio-namespace
+- ./wave-wrappers/istio-install
+# oauth2-proxy
+- ../../common/oauth2-proxy/overlays/m2m-dex-only
+# Dex
+- ../../common/dex/overlays/oauth2-proxy
+# KNative
+- ../../common/knative/knative-serving/overlays/gateways
+- ../../common/istio/cluster-local-gateway/base
+# Kubeflow namespace
+- ../../common/kubeflow-namespace/base
+# Kubeflow Roles
+- ../../common/kubeflow-roles/base
+# Kubeflow Istio Resources
+- ../../common/istio/kubeflow-istio-resources/base
+# Kubeflow Pipelines
+- ../../applications/pipeline/overlays
+# Katib
+- ../../applications/katib/upstream/installs/katib-with-kubeflow
+# Central Dashboard
+- ../../applications/dashboard/overlays/istio
+# Notebooks v1
+- ../../applications/notebooks-v1/overlays/istio
+# Trainer (Training Operator v2)
+- ../../applications/trainer/overlays
+# User namespace
+- ../../common/user-namespace/base
+# KServe
+- ../../applications/kserve/kserve
+- ../../applications/kserve/models-web-app/overlays/kubeflow
+# Spark Operator
+- ../../applications/spark/spark-operator/overlays/kubeflow
+# Local Files
+- admin-armada-profile.yaml
+- kubeflow-params.yaml
+- kubeflow-application.yaml
+- dex-keycloak-secret.yaml
+replacements:
+- source:
+    kind: ConfigMap
+    name: kubeflow-params
+    namespace: kubeflow
+    fieldPath: data.callback_url
+  targets:
+  - select:
+      kind: Deployment
+      name: oauth2-proxy
+      namespace: oauth2-proxy
+    fieldPaths:
+    - spec.template.spec.containers.[name=oauth2-proxy].env.[name=OAUTH2_PROXY_REDIRECT_URL].value
+    options:
+      create: true
+
+patches:
+- path: gateway-patch.yaml
+  target:
+    kind: Gateway
+    name: kubeflow-gateway
+- path: oauth2-proxy-patch.yaml
+  target:
+    kind: ConfigMap
+    name: oauth2-proxy
+    namespace: oauth2-proxy
+- target:
+    kind: ConfigMap
+    name: dashboard-parameters
+    namespace: kubeflow
+  patch: |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: dashboard-parameters
+    data:
+      REGISTRATION_FLOW: "true"
+- path: patches/service-nodeport.yaml
+  target:
+    kind: Service
+    name: istio-ingressgateway
+    namespace: istio-system
+- path: patches/dex-jwt-jwksuri.yaml
+  target:
+    group: security.istio.io
+    version: v1beta1
+    kind: RequestAuthentication
+    name: dex-jwt
+    namespace: istio-system
+- path: patches/dex-envfrom-keycloak.yaml
+  target:
+    kind: Deployment
+    name: dex
+    namespace: auth
+- path: patches/enable-k8s-ingress.yaml
+  target:
+    kind: Deployment
+    name: istiod
+    namespace: istio-system
