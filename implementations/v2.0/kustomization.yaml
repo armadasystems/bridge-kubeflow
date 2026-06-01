@@ -74,6 +74,7 @@ resources:
 - kubeflow-params.yaml
 - kubeflow-application.yaml
 - dex-keycloak-secret.yaml
+- allow-external-to-istio-ingressgateway.yaml
 replacements:
 - source:
     kind: ConfigMap
