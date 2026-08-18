@@ -64,7 +64,9 @@ data:
   ## cached steps with. Will be used to echo a message announcing that 
   ## the cached step result will be used. If not set it will default to 
   ## 'ghcr.io/containerd/busybox'
-  cacheImage: "ghcr.io/containerd/busybox"
+  # Pinned. Untagged this resolves to :latest, which cannot be mirrored into an
+  # air-gapped registry (nothing to seed ahead of time) and drifts silently.
+  cacheImage: "ghcr.io/containerd/busybox:1.36"
   ## cacheNodeRestrictions the dummy container runing if output is cached
   ## will run with the same affinity and node selector as the default pipeline
   ## step. This is defaulted to 'false' to allow the pod to be scheduled on 
