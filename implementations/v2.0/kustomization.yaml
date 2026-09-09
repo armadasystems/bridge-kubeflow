@@ -134,3 +134,19 @@ patches:
     kind: Deployment
     name: istiod
     namespace: istio-system
+- target:
+    kind: ConfigMap
+    name: pipeline-install-config
+    namespace: kubeflow
+  patch: |
+    - op: replace
+      path: /data/cacheImage
+      value: "ghcr.io/containerd/busybox:1.36"
+- target:
+    kind: ConfigMap
+    name: pipeline-install-config-postgres
+    namespace: kubeflow
+  patch: |
+    - op: replace
+      path: /data/cacheImage
+      value: "ghcr.io/containerd/busybox:1.36"
