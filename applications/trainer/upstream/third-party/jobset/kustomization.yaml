@@ -2,7 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - https://github.com/kubernetes-sigs/jobset/releases/download/v0.11.0/manifests.yaml
+  # Vendored from https://github.com/kubernetes-sigs/jobset/releases/download/v0.11.0/manifests.yaml
+  # Kustomize fetches remote resources over the network at RENDER time, which
+  # fails in an air-gapped site (ArgoCD cannot reach github.com) and is also a
+  # live dependency on a third-party repo for online deploys. The release is
+  # pinned to v0.11.0 and never moves, so the vendored copy is byte-identical to
+  # what the URL served — rendered output is unchanged for both flows.
+  # To refresh: re-download that URL at the new version and update this filename.
+  - ./manifests-v0.11.0.yaml
 
 images:
   - name: us-central1-docker.pkg.dev/k8s-staging-images/jobset/jobset

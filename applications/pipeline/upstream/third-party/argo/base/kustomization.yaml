@@ -2,7 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- https://github.com/argoproj/argo-workflows/manifests/base/workflow-controller?ref=v3.7.3
+# Vendored from argo-workflows v3.7.3 (see ../vendor/README.md). Kustomize
+# fetches remote bases over the network at RENDER time — that fails in an
+# air-gapped site, and even online it must complete inside kustomize's
+# hardcoded 27s git-fetch timeout, which argo-workflows regularly exceeds.
+- ../vendor/base-workflow-controller
 
 patches:
 - path: workflow-controller-deployment-patch.yaml
